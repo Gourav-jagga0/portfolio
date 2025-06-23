@@ -1,4 +1,4 @@
-var endpoints = {
+export const endpoints = {
   sendMessage: "/api/sendMessage",
-} as { [key: string]: string };
-export { endpoints };
+  // Add other endpoints here
+} as const;

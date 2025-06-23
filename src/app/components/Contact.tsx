@@ -2,19 +2,26 @@
 
 import { useState } from "react";
 import { callPost } from "../../utility/axioscall";
+//import { CallPostOptions } from "@/utility/CommonTypes";
 
 export default function Contact() {
-  const [outputData, setoutputData] = useState();
+  //const [outputData, setoutputData] = useState();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   });
+
   const handleSubmit = (e: { preventDefault: () => void }) => {
-    callPost("sendMessage", formData, {}).then((res: any) =>
-      setoutputData(res)
-    );
-    console.log("Form Data:", outputData);
+    e.preventDefault();
+    callPost("sendMessage", formData, {})
+      .then(() =>
+        //  setoutputData(res)
+        console.log("message sent scussfully")
+      )
+      .catch((e) => {
+        console.log(`encounter error ${e}`);
+      });
   };
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

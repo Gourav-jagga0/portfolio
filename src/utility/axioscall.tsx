@@ -1,5 +1,5 @@
 import { endpoints } from "@/utility/urlMap";
-import axios from "axios";
+import axios, { AxiosResponse, RawAxiosRequestHeaders } from "axios";
 import { alert } from "@/app/universalComponents/Alert";
 
 interface CallPostOptions {
@@ -8,13 +8,22 @@ interface CallPostOptions {
   successMessage?: string;
   errorMessage?: string;
 }
+type EndpointKey = keyof typeof endpoints;
+interface ApiError extends Error {
+  response?: {
+    data?: {
+      message?: string;
+    };
+    status?: number;
+  };
+}
 
-const callPost = async (
-  endPoint: string,
-  payload: any,
-  header: any,
+const callPost = async <T = unknown, D = unknown>(
+  endPoint: EndpointKey,
+  payload: D,
+  headers: RawAxiosRequestHeaders = {}, // Default empty object
   options: CallPostOptions = { showSuccess: true, showError: true }
-) => {
+): Promise<T> => {
   const {
     showSuccess = true,
     showError = true,
@@ -23,13 +32,15 @@ const callPost = async (
   } = options;
 
   try {
-    const response = await axios.post(endpoints[endPoint], payload, {
-      headers: header,
-    });
+    const response: AxiosResponse<T> = await axios.post(
+      endpoints[endPoint],
+      payload,
+      { headers }
+    );
 
-    if (response?.status === 200) {
+    if (response.status === 200) {
       if (showSuccess) {
-        alert.success("API call succeeded");
+        alert.success(successMessage || "API call succeeded");
       }
       return response.data;
     } else {
@@ -40,14 +51,18 @@ const callPost = async (
       }
       throw new Error(`API call failed with status ${response.status}`);
     }
-  } catch (error: any) {
+  } catch (error) {
+    const apiError = error as ApiError;
+
     if (showError) {
       alert.error(
-        errorMessage || error.response?.data?.message || "Something went wrong"
+        errorMessage ||
+          apiError.response?.data?.message ||
+          "Oops! Something went wrong"
       );
     }
-    console.error("API call failed:", error);
-    throw error;
+    console.error("API call failed:", apiError);
+    throw apiError;
   }
 };
 
