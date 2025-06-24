@@ -14,7 +14,12 @@ export default function Contact() {
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    callPost("sendMessage", formData, {})
+    callPost(
+      "sendMessage",
+      formData,
+      { "Content-Type": "application/json" },
+      { successMessage: "Message sent successfully" }
+    )
       .then(() =>
         //  setoutputData(res)
         console.log("message sent scussfully")

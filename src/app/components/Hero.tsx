@@ -32,10 +32,14 @@ export default function Hero() {
           </div>
           <div className="md:w-1/2 flex justify-center">
             <div className="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-gray-200">
-              {/* Replace with your image */}
-              <div className="w-full h-full bg-gray-300 flex items-center justify-center">
+              <img
+                src="/profilepic/profile.jpg"
+                alt="Profile Picture"
+                className="w-full h-full object-cover"
+              />
+              {/* <div className="w-full h-full bg-gray-300 flex items-center justify-center">
                 <span className="text-gray-500">Your Photo</span>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
