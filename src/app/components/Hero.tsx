@@ -5,7 +5,7 @@ export default function Hero() {
         <div className="flex flex-col md:flex-row items-center">
           <div className="md:w-1/2 mb-10 md:mb-0">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Hi, Gourav Jagga{" "}
+              Hi, I'm Gourav Jagga{" "}
             </h1>
             <h2 className="text-2xl md:text-3xl text-gray-700 mb-6">
               Backend Developer
